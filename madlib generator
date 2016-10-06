@@ -1,0 +1,97 @@
+#this is the text acording to the difficulty level
+easy =  '''
+        Python is a widely used high-level, general purpose, interpreted, 
+        dynamic programming language.Its design philosophy emphasizes code 
+        readability... -https://en.wikipedia.org/wiki/Python_(programming_language)
+        '''
+medium ='''
+        Python supports multiple programming paradigms, including 
+        object-oriented, imperative and procedural 
+        styles. It features a dynamic type system and automatic memory 
+        management and has a large and comprehensive standard library. -https://en.wikipedia.org/wiki/Python_(programming_language)
+        '''
+hard =  '''
+        Python interpreters are available for many operating systems, allowing 
+        code to run on a wide variety of systems. Using third-party 
+        tools, such as Py2exe or Pyinstaller , the code can be packaged 
+        into stand-alone executable programs for some of the most popular 
+        operating systems ... 
+        -https://en.wikipedia.org/wiki/Python_(programming_language)
+        '''
+paragraphs = [easy, medium, hard] # We define the difficulty in a list
+
+# This is the list of solutions
+answers = [["Python", "general", "programming", "code"],  # for easy
+              ["Python", "programming", "system", "large"],  # for medium
+              ["Python", "Py2exe", "Pyinstaller", "systems"]]  # for hard
+
+# ask users to chose a valid difficulty level.
+def choose_level():
+    level = raw_input("Enter a difficulty level: easy, medium or hard: ")
+
+    if level == "easy":
+        print "You selected Easy"
+        return 0 #position on the list "paragraphs"
+    elif level == "medium":
+        print "You selected Medium"
+        return 1
+    elif level == "hard":
+        print "You selected Hard"
+        return 2
+    else:
+        print "Invalid selection"
+        return choose_level()  # loop until they choose a valid option
+#You could use for word in list_of_words: instead of using a while loop and declaring an index.
+def process_paragraph(level, blank): # ask for the level, and blanks
+    paragraph = paragraphs[level]
+    # replace all the answers from current blank to the last one
+    while blank < len(answers[level]):
+        word_to_replace = answers[level][blank]
+        list_of_words = paragraph.split(" ")
+        index = 0
+        # Replace the word_to_replace with ___number___
+        for word in list_of_words:    
+        #while index < len(list_of_words):
+            if list_of_words[index] == word_to_replace:
+                list_of_words[index] = "___" + str(blank + 1) + "___"
+            index += 1
+        blank += 1
+        paragraph = " ".join(list_of_words)
+    return paragraph
+
+def play_game(level): #starts the game
+    blank = 0
+    # ask for the right answer until everything is filled.
+    while blank < len(answers[level]):
+        print process_paragraph(level, blank)
+        question = "\nWhat should go in blank number " + str(blank + 1) + "?"
+        answer = raw_input(question).lower()
+
+        correct_answer = answers[level][blank].lower()
+        if correct_answer == answer:
+            print "Correct!"
+            blank += 1
+        else:
+            print "Try again!"
+    print paragraphs[level]
+    print "\n I didnt think you where going to make it... but here you are!"
+#
+def main():
+    print "Welcome to my matbils program"
+    level = choose_level()
+    if level < 3:
+        play_game(level)
+
+        #if level < 3:
+        again = raw_input("Would you like to play againg?(Y/N)")
+        if again == "Y":
+            print "Yes! you win"
+            main()
+        else:
+            exit()
+    else:
+        exit()
+    print "you win"
+    exit()
+
+main()
